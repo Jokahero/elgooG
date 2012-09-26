@@ -7,7 +7,11 @@ require 'parser'
 def lookForFiles(path)
 	Dir.foreach(path) do |file|
 		next if file == '.' or file == '..'
-		parseFile(path + '/' + file)
+		fname = path + '/' + file
+		if File.extname(fname) == '.xml' then
+			puts "Parsing #{fname}"
+			parseFile(fname)
+		end
 	end
 end
 
