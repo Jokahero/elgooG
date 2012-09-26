@@ -7,7 +7,7 @@ require 'parser'
 def lookForFiles(path)
 	Dir.foreach(path) do |file|
 		next if file == '.' or file == '..'
-		parseFile(file)
+		parseFile(path + '/' + file)
 	end
 end
 
