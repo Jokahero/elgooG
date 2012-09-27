@@ -14,3 +14,15 @@ def connectToDatabase(host='localhost', user='root', password='root', database='
 	return true
 end
 
+def searchWord(word)
+	res = $db.query("SELECT id FROM `Words` WHERE `word` = '#{word}';")
+	while row = res.fetch_hash do
+		return row['id']
+	end
+end
+
+def insertWord(word)
+	$db.query("INSERT INTO `Words` (`id`, `word`) VALUES (NULL, '#{word}');")
+	return $db.insert_id
+end
+
