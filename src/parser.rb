@@ -17,6 +17,8 @@ PARAGRAPHE = 'P'
 SECTION = 'SEC'
 SOUS_TITRE = 'SOUS-TITRE' 
 
+$escaped_words = []
+
 def parseFile(fileName)
 	file = File.new(fileName)
 	document = Document.new(file)
@@ -58,6 +60,21 @@ end
 
 def parseWords(element)
 	toParse = element.text
-	puts "Element : #{element.name} ==> #{toParse}"
+	return if toParse == nil
+	words = toParse.split(/\W+/)
+	words.each do |word|
+		truncated = word[0..4]
+		next if $escaped_words.include?(truncated.downcase)
+		next if truncated.strip == ''
+		puts truncated
+	end
 end
 
+def createStopList
+	file = File.new("samples/stoplist.txt")
+	file.each_line do |line|
+		$escaped_words << line.strip		
+	end
+end
+
+createStopList
