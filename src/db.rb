@@ -67,7 +67,7 @@ def insertDocument(document)
 end
 
 def searchParagraph(document, xpath)
-	res = $db.query("SELECT id FROM `Paragraphs` WHERE `document` = '#{document}' AND `xpath` == '#{xpath}';")
+	res = $db.query("SELECT id FROM `Paragraphs` WHERE `document` = '#{document}' AND `xpath` = '#{xpath}';")
 	while row = res.fetch_hash do
 		return row['id']
 	end
