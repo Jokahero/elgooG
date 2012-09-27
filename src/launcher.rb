@@ -20,8 +20,7 @@ end
 
 def connectToDatabase(host='localhost', user='root', password='root', database='elgoog')
 	begin
-		db = Mysql.new
-		db.connect(host, user, password, database)
+		db = Mysql.new(host, user, password, database)
 	rescue Mysql::Error => e
 		puts e
 		return false
