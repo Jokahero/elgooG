@@ -2,10 +2,8 @@
 
 $LOAD_PATH << File.dirname(__FILE__)
 
+require 'db'
 require 'parser'
-require 'mysql'
-
-$db = nil
 
 def lookForFiles(path)
 	Dir.foreach(path) do |file|
@@ -16,16 +14,6 @@ def lookForFiles(path)
 			parseFile(fname)
 		end
 	end
-end
-
-def connectToDatabase(host='localhost', user='root', password='root', database='elgoog')
-	begin
-		$db = Mysql.new(host, user, password, database)
-	rescue Mysql::Error => e
-		puts e
-		return false
-	end
-	return true
 end
 
 if not connectToDatabase then
