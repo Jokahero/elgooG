@@ -18,7 +18,7 @@ def lookForFiles(path)
 	end
 end
 
-def connectToDatabase(host='localhost', user='root', password='root', database='elgoogaa')
+def connectToDatabase(host='localhost', user='root', password='root', database='elgoog')
 	begin
 		db = Mysql.new
 		db.connect(host, user, password, database)
