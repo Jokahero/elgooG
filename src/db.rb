@@ -19,6 +19,7 @@ def searchWord(word)
 	while row = res.fetch_hash do
 		return row['id']
 	end
+	return nil
 end
 
 def insertWord(word)
