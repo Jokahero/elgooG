@@ -5,6 +5,11 @@ $LOAD_PATH << File.dirname(__FILE__)
 require 'db'
 require 'parser'
 
+HOST = 'localhost'
+USER = 'root'
+PASS = 'root'
+DB = 'elgoog'
+
 def lookForFiles(path)
 	Dir.foreach(path) do |file|
 		next if file == '.' or file == '..'
@@ -16,7 +21,7 @@ def lookForFiles(path)
 	end
 end
 
-if not connectToDatabase then
+if not connectToDatabase(HOST, USER, PASS, DB) then
 	puts "Unable to establish connection to the database!"
 	exit 1
 end
