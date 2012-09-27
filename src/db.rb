@@ -14,7 +14,7 @@ def connectToDatabase(host, user, password, database)
 	return true
 end
 
-def insertWordOccurence(word, document, xpath, weight, frequency, positions)
+def insertWordOccurences(word, document, xpath, weight, frequency, positions)
 	idWord = searchWord(word)
 	if idWord == nil then
 		idWord = insertWord(word)
