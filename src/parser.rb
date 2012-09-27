@@ -2,6 +2,9 @@
 
 require 'rexml/document'
 
+require './src/db.rb'
+require './src/wordinfo.rb'
+
 include REXML
 
 BALADE = 'BALADE'
@@ -19,7 +22,15 @@ SOUS_TITRE = 'SOUS-TITRE'
 
 $escaped_words = []
 
+$words = Hash.new
+
+$current_path = ""
+
+$document
+
 def parseFile(fileName)
+	$document = fileName
+		
 	file = File.new(fileName)
 	document = Document.new(file)
 
@@ -33,6 +44,12 @@ def parseFile(fileName)
 			parseRecit(element)
 		end
 
+	end
+
+	$words.each do |word, wordInfo|
+		wordInfo.eachPath do |path, positions|
+			insertWordOccurences(word, $document, path, wordInfo.weight, wordInfo.getFrequency(path), positions)
+		end
 	end
 end
 
@@ -62,11 +79,16 @@ def parseWords(element)
 	toParse = element.text
 	return if toParse == nil
 	words = toParse.split(/\W+/)
+	position = 0
 	words.each do |word|
 		truncated = word[0..4]
 		next if $escaped_words.include?(truncated.downcase)
 		next if truncated.strip == ''
-		puts truncated
+		puts "#{truncated} at #{position}"
+
+		treatWordOccurence(word, position, element.xpath)
+
+		position += 1
 	end
 end
 
@@ -77,4 +99,10 @@ def createStopList
 	end
 end
 
+def treatWordOccurence(word, position, xpath)
+	$words[word] = WordInfo.new if $words[word] == nil
+	$words[word].addOccurence(xpath, position)
+end
+
 createStopList
+
