@@ -27,3 +27,16 @@ def insertWord(word)
 	return $db.insert_id
 end
 
+def searchDocument(document)
+	res = $db.query("SELECT id FROM `Documents` WHERE `label` = '#{document}';")
+	while row = res.fetch_hash do
+		return row['id']
+	end
+	return nil
+end
+
+def insertDocument(document)
+	$db.query("INSERT INTO `Documents` (`id`, `label`) VALUES (NULL, '#{document}');")
+	return $db.insert_id
+end
+
