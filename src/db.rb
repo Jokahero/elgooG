@@ -40,3 +40,16 @@ def insertDocument(document)
 	return $db.insert_id
 end
 
+def searchParagraph(document, xpath)
+	res = $db.query("SELECT id FROM `Paragraphs` WHERE `document` = '#{document}' AND `xpath` == '#{xpath}';")
+	while row = res.fetch_hash do
+		return row['id']
+	end
+	return nil
+end
+
+def insertParagraph(document, xpath)
+	$db.query("INSERT INTO `Paragraphs` (`id`, `document`, `xpath`) VALUES (NULL, '#{document}', '#{xpath}');")
+	return $db.insert_id
+end
+
