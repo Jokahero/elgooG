@@ -4,7 +4,7 @@ require 'mysql'
 
 $db = nil
 
-$words = {}
+$words_id = {}
 
 def connectToDatabase(host, user, password, database)
 	begin
@@ -43,12 +43,12 @@ def insertWordOccurences(word, document, xpath, weight, frequency, positions)
 end
 
 def searchWord(word)
-	if $words.has_key? word then
-		return $words[word]
+	if $words_id.has_key? word then
+		return $words_id[word]
 	end
 	res = $db.query("SELECT id FROM `Words` WHERE `word` = '#{word}';")
 	while row = res.fetch_hash do
-		$words[word] = row['id']
+		$words_id[word] = row['id']
 		return row['id']
 	end
 	return nil
@@ -56,7 +56,7 @@ end
 
 def insertWord(word)
 	$db.query("INSERT INTO `Words` (`id`, `word`) VALUES (NULL, '#{word}');")
-	$words[word] = $db.insert_id
+	$words_id[word] = $db.insert_id
 	return $db.insert_id
 end
 
