@@ -43,12 +43,12 @@ def insertWordOccurences(word, document, xpath, weight, frequency, positions)
 end
 
 def searchWord(word)
-	if words.has_key? word then
-		return words[word]
+	if $words.has_key? word then
+		return $words[word]
 	end
 	res = $db.query("SELECT id FROM `Words` WHERE `word` = '#{word}';")
 	while row = res.fetch_hash do
-		words[word] = row['id']
+		$words[word] = row['id']
 		return row['id']
 	end
 	return nil
@@ -56,7 +56,7 @@ end
 
 def insertWord(word)
 	$db.query("INSERT INTO `Words` (`id`, `word`) VALUES (NULL, '#{word}');")
-	words[word] = $db.insert_id
+	$words[word] = $db.insert_id
 	return $db.insert_id
 end
 
