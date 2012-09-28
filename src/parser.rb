@@ -44,14 +44,18 @@ def parseFile(fileName)
 		elsif element.name == RECIT
 			parseRecit(element)
 		end
-
 	end
+end
 
+def insertWords
+	puts "Inseting #{$words.length} words ..."
 	$words.each do |word, wordInfo|
 		wordInfo.eachPath do |path, positions|
 			insertWordOccurences(word, $document, path, wordInfo.weight, wordInfo.getFrequency(path), positions)
 		end
 	end
+	$words.clear
+
 end
 
 def parsePresentation(element) 
@@ -73,6 +77,7 @@ end
 def parseSection(element)
 	element.elements.each do |node|
 		parseWords(node) if node.name == PARAGRAPHE or node.name == SOUS_TITRE
+		insertWords
 	end
 end
 
