@@ -29,6 +29,7 @@ $current_path = ""
 $document
 
 def parseFile(fileName)
+	#return if not fileName == 'samples/d001.xml'
 	$document = fileName
 		
 	file = File.new(fileName)
