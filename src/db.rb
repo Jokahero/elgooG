@@ -38,7 +38,9 @@ def insertWordOccurences(word, document, xpath, weight, frequency, positions)
 
 	# Insert each occurence
 	positions.each {|pos|
-		$db.query("INSERT INTO `Positions` (`found`, `position`) VALUES (#{idFound}, #{pos});")
+		Thread.new {
+			$db.query("INSERT INTO `Positions` (`found`, `position`) VALUES (#{idFound}, #{pos});")
+		}
 	}
 end
 
