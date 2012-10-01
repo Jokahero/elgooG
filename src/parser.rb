@@ -87,13 +87,12 @@ def parseWords(element)
 	position = 0
 	words.each do |word|
 		truncated = word[0..4]
-		next if $escaped_words.include?(truncated.downcase)
 		next if truncated.strip == ''
+		position += 1
+		next if $escaped_words.include?(truncated.downcase)
 		#puts "#{truncated} at #{position}"
 
 		treatWordOccurence(word, position, element.xpath)
-
-		position += 1
 	end
 end
 
