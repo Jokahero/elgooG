@@ -1,5 +1,7 @@
 #coding: utf-8
 
+require './src/formulas.rb'
+
 class WordInfo
 
 @@TITLE_WEIGHT = 3 
@@ -36,6 +38,10 @@ end
 
 def eachPath(&block)
 	@xPathList.each(&block)
+end
+
+def getWeight(length, xPath)
+	return computeTF(length, getFrequency(xPath)) + @weight
 end
 
 end # WordInfo
