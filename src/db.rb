@@ -2,6 +2,11 @@
 
 require 'mysql'
 
+HOST = 'localhost'
+USER = 'root'
+PASS = 'root'
+DB = 'elgoog'
+
 $db = nil
 
 $words_id = {}
@@ -14,6 +19,16 @@ def connectToDatabase(host, user, password, database)
 		return false
 	end
 	return true
+end
+
+def checkDatabaseConnection
+	return true if $db != nil
+	if not connectToDatabase(HOST, USER, PASS, DB) then
+		puts "Unable to establish connection to the database!"
+		return false
+	else
+		return true
+	end
 end
 
 def insertWordOccurences(word, document, xpath, weight, frequency, positions)

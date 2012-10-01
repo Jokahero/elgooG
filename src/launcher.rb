@@ -5,10 +5,6 @@ $LOAD_PATH << File.dirname(__FILE__)
 require 'db'
 require 'parser'
 
-HOST = 'localhost'
-USER = 'root'
-PASS = 'root'
-DB = 'elgoog'
 
 def lookForFiles(path)
 	Dir.foreach(path) do |file|
@@ -21,15 +17,12 @@ def lookForFiles(path)
 	end
 end
 
-if not connectToDatabase(HOST, USER, PASS, DB) then
-	puts "Unable to establish connection to the database!"
-	exit 1
-end
+checkDatabaseConnection
 
 ARGV.each do|path|
 	puts "Looking for documents in #{path}…"
 	lookForFiles(path)
 end
 
-$db.close
+$db.close if $db != nil
 
