@@ -42,9 +42,9 @@ def insertWordOccurences(word, document, xpath, weight, frequency, positions)
 		idDocument = insertDocument(document)
 	end
 
-	idParagraph = searchParagraph(document, xpath)
+	idParagraph = searchParagraph(idDocument, xpath)
 	if idParagraph == nil then
-		idParagraph = insertParagraph(document, xpath)
+		idParagraph = insertParagraph(idDocument, xpath)
 	end
 
 	# Insert the word for the paragraph
