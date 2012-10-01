@@ -48,14 +48,13 @@ def parseFile(fileName)
 end
 
 def insertWords
-	puts "Inseting #{$words.length} words ..."
+	#puts "Inseting #{$words.length} words ..."
 	$words.each do |word, wordInfo|
 		wordInfo.eachPath do |path, positions|
-			insertWordOccurences(word, $document, path, wordInfo.weight, wordInfo.getFrequency(path), positions)
+			insertWordOccurences(word, $document, path, wordInfo.getWeight($words.length, path), wordInfo.getFrequency(path), positions)
 		end
 	end
 	$words.clear
-
 end
 
 def parsePresentation(element) 
@@ -90,7 +89,7 @@ def parseWords(element)
 		truncated = word[0..4]
 		next if $escaped_words.include?(truncated.downcase)
 		next if truncated.strip == ''
-		puts "#{truncated} at #{position}"
+		#puts "#{truncated} at #{position}"
 
 		treatWordOccurence(word, position, element.xpath)
 
