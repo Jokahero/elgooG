@@ -59,6 +59,26 @@ def insertWordOccurences(word, document, xpath, weight, frequency, positions)
 	}
 end
 
+def updateWeight(word, document, xpath, weight)
+	idWord = searchWord(word)
+	if idWord == nil then
+		idWord = insertWord(word)
+	end
+
+	idDocument = searchDocument(document)
+	if idDocument == nil then
+		idDocument = insertDocument(document)
+	end
+
+	idParagraph = searchParagraph(idDocument, xpath)
+	if idParagraph == nil then
+		idParagraph = insertParagraph(idDocument, xpath)
+	end
+
+	# Update the word weight
+	$db.query("UPDATE `Found` SET VALUES `weigth` = #{weight} WHERE `word` = #{idWord} AND `paragraph` = #{paragraph};")
+end
+
 def searchWord(word)
 	if $words_id.has_key? word then
 		return $words_id[word]
