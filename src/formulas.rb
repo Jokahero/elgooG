@@ -5,5 +5,6 @@ def computeTF(length, frequency)
 end
 
 def computeIDF(length, count)
-	return Math.log(length / count)
+	return Math.log(length / count) if count < length
+	return 0
 end
