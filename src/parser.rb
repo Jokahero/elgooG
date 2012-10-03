@@ -88,7 +88,7 @@ end
 def parseWords(element)
 	toParse = element.text
 	return if toParse == nil
-	words = toParse.split(/\W+/)
+	words = toParse.split(/[^a-zA-ZàÀâÂéÉèÈêÊçÇîÎôÔûÛ]/)
 	position = 0
 	words.each do |word|
 		truncated = word[0..4]
