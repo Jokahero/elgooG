@@ -28,6 +28,8 @@ $current_path = ""
 
 $document
 
+$paragraph_count = 0
+
 def parseFile(fileName)
 	#return if not fileName == 'samples/d001.xml'
 	$document = fileName
@@ -45,16 +47,18 @@ def parseFile(fileName)
 			parseRecit(element)
 		end
 	end
+	insertWords
 end
 
 def insertWords
 	#puts "Inseting #{$words.length} words ..."
 	$words.each do |word, wordInfo|
 		wordInfo.eachPath do |path, positions|
-			insertWordOccurences(word, $document, path, wordInfo.getWeight($words.length, path), wordInfo.getFrequency(path), positions)
+			insertWordOccurences(word, $document, path, wordInfo.getWeight($words.length, path, $paragraph_count), wordInfo.getFrequency(path), positions)
 		end
 	end
 	$words.clear
+	$paragraph_count = 0
 end
 
 def parsePresentation(element) 
@@ -76,7 +80,8 @@ end
 def parseSection(element)
 	element.elements.each do |node|
 		parseWords(node) if node.name == PARAGRAPHE or node.name == SOUS_TITRE
-		insertWords
+		$paragraph_count += 1 if node.name == PARAGRAPHE
+		#insertWords
 	end
 end
 
