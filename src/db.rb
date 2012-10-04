@@ -10,6 +10,8 @@ DB = 'elgoog'
 $db = nil
 
 $words_id = {}
+$par_id = {}
+$docs_id = {}
 
 def connectToDatabase(host, user, password, database)
 	begin
@@ -98,8 +100,12 @@ def insertWord(word)
 end
 
 def searchDocument(document)
+	if $docs_id.has_key? document then
+		return $docs_id[document]
+	end
 	res = $db.query("SELECT id FROM `Documents` WHERE `label` = '#{document}';")
 	while row = res.fetch_hash do
+		$docs_id[document] = row['id']
 		return row['id']
 	end
 	return nil
@@ -107,12 +113,17 @@ end
 
 def insertDocument(document)
 	$db.query("INSERT INTO `Documents` (`id`, `label`) VALUES (NULL, '#{document}');")
+	$docs_id[document] = $db.insert_id
 	return $db.insert_id
 end
 
 def searchParagraph(document, xpath)
+	if $par_id.has_key? "#{document}+#{xpath}" then
+		return $par_id["#{document}+#{xpath}"]
+	end
 	res = $db.query("SELECT id FROM `Paragraphs` WHERE `document` = '#{document}' AND `xpath` = '#{xpath}';")
 	while row = res.fetch_hash do
+		$par_id["#{document}+#{xpath}"] = row['id']
 		return row['id']
 	end
 	return nil
@@ -120,6 +131,7 @@ end
 
 def insertParagraph(document, xpath)
 	$db.query("INSERT INTO `Paragraphs` (`id`, `document`, `xpath`) VALUES (NULL, '#{document}', '#{xpath}');")
+	$par_id["#{document}+#{xpath}"] = $db.insert_id
 	return $db.insert_id
 end
 
