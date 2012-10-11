@@ -97,7 +97,7 @@ def parseWords(element)
 		next if $escaped_words.include?(truncated.downcase)
 		#puts "#{truncated} at #{position}"
 
-		treatWordOccurence(word.downcase, position, element.xpath)
+		treatWordOccurence(word.downcase, position, element.xpath.gsub("/BALADE/", "/BALADE[1]/").gsub("/RECIT/", "/RECIT[1]/"))
 	end
 end
 
