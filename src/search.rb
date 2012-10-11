@@ -7,11 +7,13 @@ require 'db'
 def searchPattern(pattern)
 	checkDatabaseConnection
 	terms = pattern.split(/[^a-zA-ZàÀâÂéÉèÈêÊçÇîÎôÔûÛ]/)
+	infos = {}
+	# Lookup each word
 	terms.each {|t|
-		puts "-------------------#{t}--------------------"
-		puts searchWord t
+		infos[t] = searchWord t
 	}
 	$db.close if $db != nil
+
 end
 
 def searchWord(word)
