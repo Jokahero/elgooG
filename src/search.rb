@@ -21,9 +21,15 @@ end
 
 def searchPattern(pattern)
 	root = Term.new(pattern)
-	# Search commons paragraphs
-	common = checkCommonParagraphs(root)
-	puts common
+
+	# Order paragraphs by total weight
+	pars = weightForParagraphs(root)
+	#pars.sort_by {|k, v| -v}.each {|k, v|
+	pars.each {|k, v|
+		res = $db.query("SELECT `Paragraphs`.`xpath`, `Documents`.`label` FROM `Paragraphs`, `Documents` WHERE `Paragraphs`.id = #{k} AND `Paragraphs`.`document` = `Documents`.`id`;")
+		row = res.fetch_hash
+		puts "#{row['label']}	#{row['xpath']}	#{v > 0 ? 1 : 0}"
+	}
 end
 
 def searchWord(word)
@@ -65,6 +71,20 @@ def checkCommonParagraphsAux(start, accu)
 	else
 		return accu
 	end
+end
+
+def weightForParagraphs(start)
+	poids = {}
+	tmp = start
+	while tmp != nil do
+		tmp.found.each{|k, v|
+			poids[k] = 0 if not poids.has_key? k
+			poids[k] += v['weight'].to_i
+		}
+		tmp = tmp.next
+	end
+
+	return poids
 end
 
 checkDatabaseConnection
