@@ -102,7 +102,7 @@ def parseWords(element)
 end
 
 def createStopList
-	file = File.new("samples/stoplist.txt")
+	file = File.new("Collection/stoplist.txt")
 	file.each_line do |line|
 		$escaped_words << line.strip		
 	end
