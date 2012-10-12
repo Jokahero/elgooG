@@ -24,12 +24,14 @@ def searchPattern(pattern)
 
 	# Order paragraphs by total weight
 	pars = weightForParagraphs(root)
-	#pars.sort_by {|k, v| -v}.each {|k, v|
+	result = []
 	pars.each {|k, v|
 		res = $db.query("SELECT `Paragraphs`.`xpath`, `Documents`.`label` FROM `Paragraphs`, `Documents` WHERE `Paragraphs`.id = #{k} AND `Paragraphs`.`document` = `Documents`.`id`;")
 		row = res.fetch_hash
-		puts "#{row['label']}	#{row['xpath']}	#{v > 0 ? 1 : 0}"
+		result << "#{row['label']}	#{row['xpath']}	#{v > 0 ? 1 : 0}"
 	}
+
+	return result
 end
 
 def searchWord(word)
@@ -90,7 +92,7 @@ end
 
 if $0 == __FILE__ then
 	checkDatabaseConnection
-	searchPattern(ARGV.join(" "))
+	puts searchPattern(ARGV.join(" ")).join("\n")
 	$db.close if $db != nil
 end
 
