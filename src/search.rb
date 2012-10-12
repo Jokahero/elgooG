@@ -87,7 +87,10 @@ def weightForParagraphs(start)
 	return poids
 end
 
-checkDatabaseConnection
-searchPattern("village randonnée montagne asie")
-$db.close if $db != nil
+
+if $0 == __FILE__ then
+	checkDatabaseConnection
+	searchPattern(ARGV.join(" "))
+	$db.close if $db != nil
+end
 
