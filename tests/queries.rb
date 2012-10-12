@@ -3,6 +3,7 @@
 $LOAD_PATH << File.dirname(__FILE__) + '/../src'
 
 require 'db'
+require 'qrel'
 require 'search'
 
 require 'rexml/document'
@@ -27,8 +28,7 @@ root.each_element do |element|
 		currentQuery = element.attributes['id']
 		element.each_element do |elt|
 			if elt.name == TEXT then
-				puts elt.text
-				qrel = searchPattern(elt.text)
+				qrel = Qrel.new(searchPattern(elt.text))
 			end
 		end
 	end
