@@ -29,5 +29,24 @@ class Qrel
 			@qrels << QrelElt.new(qrelElt)
 		}
 	end
+
+	def lookup(document, xpath)
+		@qrels.each {|qrel|
+			if qrel.document == document and qrel.xpath == xpath then
+				return qrel
+			end
+		}
+
+		return nil
+	end
+
+	def compare(qrelElt)
+		comp = lookup(qrelElt.document, qrelElt.xpath)
+		if comp == nil then
+			return qrelElt.usefullness == 0
+		else
+			return qrelElt.usefullness == 0 and comp.usefullness == 0 or qrelElt.usefullness != 0 and qrelElt != 0
+		end
+	end
 end
 
