@@ -3,6 +3,7 @@
 $LOAD_PATH << File.dirname(__FILE__)
 
 require 'db'
+require 'lingua/stemmer'
 
 class Term
 	attr_accessor :term, :found, :next
@@ -10,7 +11,8 @@ class Term
 	def initialize(string)
 		terms = string.split(/[^a-zA-ZàÀâÂéÉèÈêÊçÇîÎôÔûÛ]/)
 		@term = terms[0]
-		@found = searchWord @term
+		stemmer = Lingua::Stemmer.new(:language => "fr")
+		@found = searchWord stemmer.stem(@term)
 		if terms.size > 1 then
 			@next = Term.new(terms[1..-1].join(" "))
 		else
