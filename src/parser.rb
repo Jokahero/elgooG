@@ -1,6 +1,7 @@
 #coding : utf-8
 
 require 'rexml/document'
+require 'lingua/stemmer'
 
 require './src/db.rb'
 require './src/wordinfo.rb'
@@ -19,6 +20,8 @@ DATE = 'DATE'
 PARAGRAPHE = 'P'
 SECTION = 'SEC'
 SOUS_TITRE = 'SOUS-TITRE' 
+
+$stemmer = Lingua::Stemmer.new(:language => "fr")
 
 $escaped_words = []
 
@@ -91,6 +94,7 @@ def parseWords(element)
 	words = toParse.split(/[^a-zA-ZàÀâÂéÉèÈêÊçÇîÎôÔûÛ]/)
 	position = 0
 	words.each do |word|
+		word = $stemmer.stem(word)
 		truncated = word[0..4]
 		next if truncated.strip == ''
 		position += 1
