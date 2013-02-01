@@ -8,6 +8,16 @@
     :css
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        color: rgb(34, 34, 34);
+      }
+
+      footer {
+        border-top: 1px solid rgb(235, 235, 235);
+        padding: 3px 0px 10px 260px;
+      }
+
+      .main-container {
+        padding-top: 112px;
       }
     %link{:rel => "stylesheet", :href => "/css/bootstrap-responsive.css"}/
 
@@ -16,9 +26,9 @@
       %div.navbar-inner
         %div.container
           %a.btn.btn-navbar{"data-toggle".to_sym => "collapse", "data-target".to_sym => ".nav-collapse"}
-            %span.icon-bar/
-            %span.icon-bar/
-            %span.icon-bar/
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
           %a.brand{:href => "#"} elgooG
           %div.nav-collapse.collapse
             %ul.nav
@@ -27,9 +37,12 @@
               %li
                 %a{:href => "#"} About
 
-    %div.container
+    %div.container.main-container
       =yield
 
-    %script{:src => "/js/jquery.js"}/
-    %script{:src => "/js/bootstrap.js"}/
-    %script{:src => "/js/bootstrap-collapse.js"}/
+    %footer.navbar-fixed-bottom
+      %p footer
+
+    %script{:src => "/js/jquery.js"}
+    %script{:src => "/js/bootstrap.js"}
+    %script{:src => "/js/bootstrap-collapse.js"}
