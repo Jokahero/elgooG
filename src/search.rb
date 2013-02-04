@@ -30,7 +30,7 @@ def searchPattern(pattern)
 	pars.each {|k, v|
 		res = $db.query("SELECT `Paragraphs`.`xpath`, `Documents`.`label` FROM `Paragraphs`, `Documents` WHERE `Paragraphs`.id = #{k} AND `Paragraphs`.`document` = `Documents`.`id`;")
 		row = res.fetch_hash
-		result << "#{row['label']}	#{row['xpath']}	#{v > 0 ? 1 : 0}"
+		result << row
 	}
 
 	return result
@@ -94,7 +94,8 @@ end
 
 if $0 == __FILE__ then
 	checkDatabaseConnection
-	puts searchPattern(ARGV.join(" ")).join("\n")
+	searchPattern(ARGV.join(" ")).each do |r|
+		puts "#{r['label']}      #{row['xpath']} #{v > 0 ? 1 : 0}"
 	$db.close if $db != nil
 end
 

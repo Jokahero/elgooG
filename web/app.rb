@@ -28,6 +28,7 @@ get '/search' do
 		haml :db_error
 	else
 		@query = params['query']
+		@result = searchPattern(@query)
 		haml :search
 	end
 end
