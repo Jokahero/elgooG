@@ -1,8 +1,8 @@
-.pagination-centered
+.pagination-centered.main-container
   %img{:src => "/img/logo_elgoog.png"}
-  %form
+  %form{:name => "search", :id => "search", :action => "/search", :method => "get", :enctype => "text/plain"}
     %div
-      %input.input-xxlarge{:type => "text"}/
+      %input.input-xxlarge{:type => "text", :id => "query", :name => "query"}/
     %div
-      %button.btn{:type => "submit"} Recherche elgooG
-      %button.btn{:type => "button"} J'ai de la chance
+      %input.btn{:type => "submit", :value => "Recherche elgooG"}/
+      %input.btn{:type => "button", :value => "J'ai de la chance"}/

@@ -21,3 +21,8 @@ end
 get '' do
 	haml :index
 end
+
+get '/search' do
+	@query = params['query']
+	haml :search
+end
