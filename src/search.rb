@@ -96,6 +96,7 @@ if $0 == __FILE__ then
 	checkDatabaseConnection
 	searchPattern(ARGV.join(" ")).each do |r|
 		puts "#{r['label']}      #{row['xpath']} #{v > 0 ? 1 : 0}"
+	end
 	$db.close if $db != nil
 end
 
