@@ -1,4 +1,5 @@
 %h1= @query
+%span= "#{@result.count} résultat#{@result.count > 1 ? "s" : ""}"
 - @result.each do |r|
   %div
     %h2= r['label']
