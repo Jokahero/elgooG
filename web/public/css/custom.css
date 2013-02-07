@@ -1,5 +1,7 @@
-.project-icon {
-	padding-right: 0.8em;
-	padding-top: 0.8em;
+body {
+	padding-bottom: 44px;
 }
 
+footer {
+	background-color: rgb(255, 255, 255);
+}
