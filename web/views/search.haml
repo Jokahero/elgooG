@@ -3,4 +3,7 @@
 - @result.each do |r|
   %div
     %h2= r['label']
-    %p= r['xpath']
+    %h3= r['xpath']
+    - @query.split.each do |w|
+      - r['value'].gsub!(/([^a-zàéçèêâ])(#{w}[\wéèàçêâ]*)/i, '\1<b>\2</b>')
+    %p= r['value']

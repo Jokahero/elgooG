@@ -3,7 +3,10 @@
 require 'rubygems'
 require 'sinatra'
 require 'haml'
+require 'rexml/document'
 require '../src/search.rb'
+
+include REXML
 
 before do
 	request.env['PATH_INFO'].gsub!(/\/$/, '')
@@ -29,6 +32,11 @@ get '/search' do
 	else
 		@query = params['query']
 		@result = searchPattern(@query)
+		@result.each do |r|
+			d = Document.new File.new "../#{r['label']}"
+			r['value'] = XPath.first(d, r['xpath']).to_s
+		end
+
 		haml :search
 	end
 end
