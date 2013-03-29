@@ -5,18 +5,38 @@ $LOAD_PATH << File.dirname(__FILE__)
 require 'db'
 require 'lingua/stemmer'
 
+$escaped_words = []
+
+def createStopList
+	stemmer = Lingua::Stemmer.new(:language => "fr")
+	file = File.new("../Collection/stoplist.txt")
+	file.each_line do |line|
+		$escaped_words << stemmer.stem(line.strip)
+	end
+end
+
 class Term
 	attr_accessor :term, :found, :next
 
 	def initialize(string)
 		terms = string.split(/[^a-zA-ZàÀâÂéÉèÈêÊçÇîÎôÔûÛ]/)
-		@term = terms[0]
 		stemmer = Lingua::Stemmer.new(:language => "fr")
-		@found = searchWord stemmer.stem(@term)
-		if terms.size > 1 then
-			@next = Term.new(terms[1..-1].join(" "))
-		else
-			@next = nil
+		stemmed = ""
+		valid = false
+		for i in 0...terms.size do
+			stemmed = stemmer.stem(terms[i])
+			if not $escaped_words.include?(stemmed) then
+				valid = true
+				break
+			end
+		end
+		if valid then
+			@found = searchWord stemmed
+			if i < terms.size then
+				@next = Term.new(terms[i+1..-1].join(" "))
+			else
+				@next = nil
+			end
 		end
 	end
 end
@@ -81,10 +101,12 @@ def weightForParagraphs(start)
 	poids = {}
 	tmp = start
 	while tmp != nil do
-		tmp.found.each{|k, v|
-			poids[k] = 0 if not poids.has_key? k
-			poids[k] += v['weight'].to_i
-		}
+		if tmp.found != nil then
+			tmp.found.each{|k, v|
+				poids[k] = 0 if not poids.has_key? k
+				poids[k] += v['weight'].to_i
+			}
+		end
 		tmp = tmp.next
 	end
 

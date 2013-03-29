@@ -8,6 +8,8 @@ require '../src/search.rb'
 
 include REXML
 
+createStopList
+
 class Float
 	def round_to(x)
 		(self * 10**x).round.to_f / 10**x
