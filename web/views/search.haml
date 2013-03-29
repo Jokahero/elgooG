@@ -5,5 +5,5 @@
     %h2= r['label']
     %h3= r['xpath']
     - @query.split.each do |w|
-      - r['value'].gsub!(/([^a-zàéçèêâ])(#{w}[\wéèàçêâ]*)/i, '\1<b>\2</b>')
+      - r['value'].gsub!(/([^a-zàéçèêâùôî])(#{w}[\wéèàçêâùôî]*)/i, '\1<b>\2</b>')
     %p= r['value']
