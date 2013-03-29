@@ -1,9 +1,12 @@
 %h1= @query
 %span= "#{@result.count} résultat#{@result.count > 1 ? "s" : ""} trouvés en #{@time}s"
-- @result.each do |r|
-  %div
-    %h2= r['label']
-    %h3= r['xpath']
-    - @query.split.each do |w|
-      - r['value'].gsub!(/([^a-zàéçèêâùôî])(#{w}[\wéèàçêâùôî]*)/i, '\1<b>\2</b>')
-    %p= r['value']
+- weights = @result.keys.sort {|x,y| y <=> x}
+- weights.each do |w|
+	- paragraphs = @result[w]
+	- paragraphs.each do |r|
+		%div
+		%h2= r['label']
+		%h3= r['xpath']
+		- @query.split.each do |w|
+			- r['value'].gsub!(/([^a-zàéçèêâùôî])(#{w}[\wéèàçêâùôî]*)/i, '\1<b>\2</b>')
+		%p= r['value']
