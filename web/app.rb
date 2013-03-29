@@ -32,9 +32,14 @@ get '/search' do
 	else
 		@query = params['query']
 		@result = searchPattern(@query)
-		@result.each do |r|
-			d = Document.new File.new "../#{r['label']}"
-			r['value'] = XPath.first(d, r['xpath']).to_s
+#@result.each do |r|
+		weights = @result.keys
+		weights.each do |w|	
+			paragraphs = @result[w]
+			paragraphs.each do |r|
+				d = Document.new File.new "../#{r['label']}"
+				r['value'] = XPath.first(d, r['xpath']).to_s
+			end
 		end
 
 		haml :search

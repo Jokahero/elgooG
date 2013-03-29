@@ -5,6 +5,8 @@ $LOAD_PATH << File.dirname(__FILE__)
 require 'db'
 require 'lingua/stemmer'
 
+FOLLOW_WEIGHT = 10
+
 class Term
 	attr_accessor :term, :found, :next
 
@@ -26,18 +28,22 @@ def searchPattern(pattern)
 
 	# Order paragraphs by total weight
 	pars = weightForParagraphs(root)
-	result = []
+	result = {}
+#weights = []
 	pars.each {|k, v|
 		res = $db.query("SELECT `Paragraphs`.`xpath`, `Documents`.`label` FROM `Paragraphs`, `Documents` WHERE `Paragraphs`.id = #{k} AND `Paragraphs`.`document` = `Documents`.`id`;")
 		row = res.fetch_hash
-		result << row
+#		weights << v
+		result[v] = [] if !result[v]
+		result[v] << row
 	}
 
+#	weights.sort! {|x,y| y <=> x}
 	return result
 end
 
 def searchWord(word)
-	res = $db.query("SELECT `Found`.`id`, `Found`.`paragraph`, `Found`.`weight` FROM `Found`, `Words` WHERE `Words`.`word` = '#{word}' AND `Words`.`id` = `Found`.`word`;")
+	res = $db.query("SELECT `Found`.`id`, `Found`.`paragraph`, `Found`.`weight` FROM `Found`, `Words` WHERE `Words`.`word` = '#{word}' AND `Words`.`id` = `Found`.`word` ORDER BY `Found`.`weight` DESC;")
 	found = {}
 	while row = res.fetch_hash do
 		id = row['id']
@@ -84,6 +90,11 @@ def weightForParagraphs(start)
 		tmp.found.each{|k, v|
 			poids[k] = 0 if not poids.has_key? k
 			poids[k] += v['weight'].to_i
+			if not tmp.next == nil and tmp.next.found.has_key? k then
+				v['positions'].each do |p|
+					poids[k] += FOLLOW_WEIGHT if tmp.next.found[k]['positions'].include? (p.to_i + 1).to_s	
+				end
+			end
 		}
 		tmp = tmp.next
 	end

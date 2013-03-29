@@ -4,8 +4,9 @@ require './src/formulas.rb'
 
 class WordInfo
 
-	@@TITLE_WEIGHT = 3 
+	@@TITLE_WEIGHT = 5 
 	@@UNDER_TITLE_WEIGHT = 2
+	@@OCCURENCE_WEIGHT = 1
 
 	attr_accessor :document, :xPathList, :weight, :positions
 

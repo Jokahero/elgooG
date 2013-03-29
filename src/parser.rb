@@ -43,8 +43,10 @@ def parseFile(fileName)
 	root = document.root
 	return if not root.name == BALADE
 	root.each_element do |element|
-		
-		if element.name == PRESENTATION
+	
+		if element.name == TITRE
+			parseTitle(element)
+		elsif element.name == PRESENTATION
 			parsePresentation(element)
 		elsif element.name == RECIT
 			parseRecit(element)
@@ -62,6 +64,10 @@ def insertWords
 	end
 	$words.clear
 	$paragraph_count = 0
+end
+
+def parseTitle(element)
+	parseWords(element, true)
 end
 
 def parsePresentation(element) 
@@ -88,7 +94,7 @@ def parseSection(element)
 	end
 end
 
-def parseWords(element)
+def parseWords(element, isTitle=false)
 	toParse = element.text
 	return if toParse == nil
 	words = toParse.split(/[^a-zA-ZàÀâÂéÉèÈêÊçÇîÎôÔûÛ]/)
@@ -101,7 +107,7 @@ def parseWords(element)
 		next if $escaped_words.include?(truncated.downcase)
 		#puts "#{truncated} at #{position}"
 
-		treatWordOccurence(word.downcase, position, element.xpath.gsub("/BALADE/", "/BALADE[1]/").gsub("/RECIT/", "/RECIT[1]/"))
+		treatWordOccurence(word.downcase, position, maltreatXPath(element.xpath))
 	end
 end
 
@@ -112,9 +118,14 @@ def createStopList
 	end
 end
 
-def treatWordOccurence(word, position, xpath)
+def treatWordOccurence(word, position, xpath, isTitle=false)
 	$words[word] = WordInfo.new if $words[word] == nil
 	$words[word].addOccurence(xpath, position)
+	$words[word].addTitleWeight
+end
+
+def maltreatXPath(xpath)
+	xpath.gsub("/BALADE/", "/BALADE[1]/").gsub("/RECIT/", "/RECIT[1]/")
 end
 
 createStopList
