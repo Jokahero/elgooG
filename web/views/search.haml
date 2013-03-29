@@ -1,5 +1,5 @@
 %h1= @query
-%span= "#{@result.count} résultat#{@result.count > 1 ? "s" : ""} trouvés en #{@time}s"
+%span= "#{@count} résultat#{@count > 1 ? "s" : ""} trouvés en #{@time}s"
 - weights = @result.keys.sort {|x,y| y <=> x}
 - weights.each do |w|
 	- paragraphs = @result[w]

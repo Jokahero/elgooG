@@ -49,11 +49,12 @@ get '/search' do
 	else
 		@query = params['query']
 		@result = searchPattern(@query)
-#@result.each do |r|
+		@count = 0
 		weights = @result.keys
 		weights.each do |w|	
 			paragraphs = @result[w]
 			paragraphs.each do |r|
+				@count += 1
 				d = Document.new File.new "../#{r['label']}"
 				r['value'] = XPath.first(d, r['xpath']).to_s
 			end
