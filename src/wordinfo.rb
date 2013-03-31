@@ -4,7 +4,7 @@ require './src/formulas.rb'
 
 class WordInfo
 
-	@@TITLE_WEIGHT = 5 
+	@@TITLE_WEIGHT = 15 
 	@@UNDER_TITLE_WEIGHT = 2
 	@@OCCURENCE_WEIGHT = 1
 
@@ -20,7 +20,7 @@ class WordInfo
 	end
 
 	def addTitleWeight
-		@weight = @weight + @@TITLE_WEIGHT
+		@weight += @@TITLE_WEIGHT
 	end
 
 	def addUnderTitleWeight
@@ -42,8 +42,9 @@ class WordInfo
 	end
 
 	def getWeight(length, xPath, paragraphCount)
-		#return computeTF(length, getFrequency(xPath)) * computeIDF(paragraphCount, @xPathList.length) +  @weight
-		return getFrequency(xPath) * computeIDF(paragraphCount, @xPathList.length) +  @weight
+		return computeTF(length, getFrequency(xPath)) * computeIDF(paragraphCount, @xPathList.length) +  @weight
+#return getFrequency(xPath) * computeIDF(paragraphCount, @xPathList.length) +  @weight
+		#return getFrequency(xPath) + @weight
 	end
 end # WordInfo
 

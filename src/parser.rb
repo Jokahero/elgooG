@@ -121,7 +121,7 @@ end
 def treatWordOccurence(word, position, xpath, isTitle=false)
 	$words[word] = WordInfo.new if $words[word] == nil
 	$words[word].addOccurence(xpath, position)
-	$words[word].addTitleWeight
+	$words[word].addTitleWeight if isTitle
 end
 
 def maltreatXPath(xpath)
