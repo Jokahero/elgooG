@@ -33,10 +33,18 @@
           %a.brand{:href => "/"} elgooG
           %div.nav-collapse.collapse
             %ul.nav
-              %li.active
-                %a{:href => "/"} Search
-              %li
-                %a{:href => "#"} About
+              - if @page == 'search'
+                %li.active
+                  %a{:href => "/"} Recherche
+              - else
+                %li
+                  %a{:href => "/"} Recherche
+              - if @page == 'about'
+                %li.active
+                  %a{:href => "/about"} À propos
+              - else
+                %li
+                  %a{:href => "/about"} À propos
 
     %div.container
       =yield

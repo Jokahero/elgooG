@@ -39,10 +39,12 @@ error do
 end
 
 get '' do
+	@page = 'search'
 	haml :index
 end
 
 get '/search' do
+	@page = 'search'
 	start = Time.now
 	if not checkDatabaseConnection then
 		haml :db_error
@@ -62,4 +64,9 @@ get '/search' do
 		@time = (Time.now - start).round_to(2)
 		haml :search
 	end
+end
+
+get '/about' do
+	@page = 'about'
+	haml :about
 end
