@@ -5,7 +5,7 @@ $LOAD_PATH << File.dirname(__FILE__)
 require 'db'
 require 'lingua/stemmer'
 
-FOLLOW_WEIGHT = 10
+FOLLOW_WEIGHT = 15
 $escaped_words = []
 
 def createStopList
